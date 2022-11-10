@@ -15,9 +15,9 @@ const AppHeader = () => {
       </div>
       <div className="mobileHidden">
         <Anchor targetOffset="65">
-          <Link href="#hero" title="Home" />
-          <Link href="#about" title="Products" />
-          <Link href="#feature" title="Cart" />
+          <Link href="/" title="Home" />
+          <Link href="/products" title="Products" />
+          <Link href="/cart" title="Cart" />
         </Anchor>
       </div>
     </div>

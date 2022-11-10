@@ -1,18 +1,24 @@
 import { Layout } from "antd";
 import AppHeader from "./components/common/Header";
-import Landing from "./components/Landing";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import "./styles/common.css";
-const {Header, Content} = Layout
+import { Landing, Products, Cart } from "./components/pages";
+
+const { Header, Content } = Layout;
 
 function App() {
   return (
-    <div className="">
+    <div className="fakeShop">
       <Layout>
         <Header>
-          <AppHeader/>
+          <AppHeader />
         </Header>
         <Content>
-          <Landing/>
+          <Routes>
+            <Route exact path="/" element={<Landing />} />
+            <Route path="/products" element={<Products />} />
+            <Route path="/cart" element={<Cart />} />
+          </Routes>
         </Content>
       </Layout>
     </div>

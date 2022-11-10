@@ -1,0 +1,59 @@
+/* Mixins. */
+@mixin image-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+
+@media only screen and (max-width: 767px) {
+  .mobileVisible {
+    display: block;
+  }
+
+  .mobileHidden {
+    display: none;
+  }
+}
+
+/* Header Page */
+.header {
+  display: flex;
+  justify-content: space-between;
+  color: #fff;
+
+
+  & .mobileHidden .ant-anchor {
+    display: flex;
+    gap: 36px;
+  }
+
+  & .mobileHidden .ant-anchor-link-title {
+    color: #fff;
+  }
+}
+
+/* Landing Page */
+.landingPage .ant-image {
+  display: flex;
+}
+
+/* Products Page */
+.products-container {
+  background-color: #b1aaa2;
+
+  & .products .ant-card{
+    margin: 0 auto;
+    padding: 16px;
+  }
+
+  & .ant-card-cover img {
+    width: 150px;
+    height: 100px;
+    @include image-center()
+  }
+
+  & .ant-col {
+    margin: 0 auto;
+  }
+}

@@ -3,6 +3,7 @@ import { Image } from "antd";
 import React from "react";
 // import Cloth1 from "./../assets/images/index"
 import { Cloth1, Cloth2, Cloth3, Cloth4, Cloth5 } from "../../assets/images";
+import CardComponent from "../common/CardComponent";
 
 const contentStyle = {
   margin: 0,
@@ -37,6 +38,7 @@ const Landing = () => {
           <Image style={imageStyle} src={Cloth5} preview={false} />
         </div>
       </Carousel>
+      <CardComponent/>
     </div>
   );
 };

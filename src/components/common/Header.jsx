@@ -1,13 +1,9 @@
-import { ScissorOutlined } from "@ant-design/icons";
+import { ScissorOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import { Anchor } from "antd";
 import React from "react";
-import { useGetPrizesQuery } from "../../store/features/productsSlice";
+import { useGetProductsQuery } from "../../services/api/api";
 const { Link } = Anchor;
 const AppHeader = () => {
-
-  const {data} = useGetPrizesQuery();
-
-  console.log('data', data)
   return (
     <div className="header">
       <div className="logo">
@@ -17,7 +13,10 @@ const AppHeader = () => {
         <Anchor targetOffset="65">
           <Link href="/" title="Home" />
           <Link href="/products" title="Products" />
-          <Link href="/cart" title="Cart" />
+
+          <Link href="/cart">
+            <ShoppingCartOutlined style={{ color: "#fff" }} />
+          </Link>
         </Anchor>
       </div>
     </div>

@@ -1,8 +1,8 @@
 import { Layout } from "antd";
 import AppHeader from "./components/common/Header";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import "./styles/common.css";
 import { Landing, Products, Cart } from "./components/pages";
+import "./App.scss";
 
 const { Header, Content } = Layout;
 

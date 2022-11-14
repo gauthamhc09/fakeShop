@@ -1,6 +1,6 @@
 import Landing from "./Landing";
 import Cart from "./Cart";
-import Products from "./Products";
+import Categories from "./Categories";
 
 
-export {Landing, Cart, Products}
+export {Landing, Cart, Categories as Products}

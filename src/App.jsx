@@ -1,8 +1,10 @@
 import { Layout } from "antd";
-import AppHeader from "./components/common/Header";
-import { Route, Routes, useNavigate } from "react-router-dom";
-import { Landing, Products, Cart } from "./components/pages";
+import { Route, Routes } from "react-router-dom";
 import "./App.scss";
+import AppHeader from "./components/common/Header";
+import { Cart, Landing } from "./components/pages";
+import Categories from "./components/pages/Categories";
+import ProductPages from "./components/pages/productPages/ProductPages";
 
 const { Header, Content } = Layout;
 
@@ -15,9 +17,11 @@ function App() {
         </Header>
         <Content>
           <Routes>
-            <Route exact path="/" element={<Landing />} />
-            <Route path="/products" element={<Products />} />
-            <Route path="/cart" element={<Cart />} />
+            <Route exact path="" element={<Landing />} />
+            <Route path="category" element={<Categories />}>
+              <Route exact path="product" element={<ProductPages />} />
+            </Route>
+            <Route path="cart" element={<Cart />} />
           </Routes>
         </Content>
       </Layout>

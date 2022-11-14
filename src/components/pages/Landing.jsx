@@ -38,7 +38,6 @@ const Landing = () => {
           <Image style={imageStyle} src={Cloth5} preview={false} />
         </div>
       </Carousel>
-      <CardComponent/>
     </div>
   );
 };

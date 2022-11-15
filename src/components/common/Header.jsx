@@ -1,10 +1,14 @@
-import { ScissorOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import { Anchor, Button, Drawer, Image } from "antd";
-import React, {useState} from "react";
-import { useGetProductsQuery } from "../../services/api/api";
+import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
+
+
 const { Link } = Anchor;
+
+
 const AppHeader = () => {
   const [visible, setVisible] = useState(false);
+  const navigateTo = useNavigate();
 
   const showDrawer = () => {
     setVisible(true);
@@ -14,10 +18,12 @@ const AppHeader = () => {
     setVisible(false);
   };
 
+  const reRoutetoHomePage = () => {
+    navigateTo('/')
+  }
   return (
     <div className="header">
-      <div className="logo">
-        {/* <ScissorOutlined /> */}
+      <div className="logo" onClick={reRoutetoHomePage}>
         <Image
           width={38}
           preview={false}
@@ -29,7 +35,6 @@ const AppHeader = () => {
           <Link href="/" title="Home" />
           <Link href="/category" title="Products" />
           <Link href="/cart" title="Cart" />
-          {/* <ShoppingCartOutlined style={{ color: "#fff" }} /> */}
         </Anchor>
       </div>
       <div className="mobileVisible">
@@ -40,7 +45,7 @@ const AppHeader = () => {
           placement="right"
           closable={false}
           onClose={onClose}
-          visible={visible}
+          open={visible}
         >
           <Anchor targetOffset="65">
             <Link href="/" title="Home" />

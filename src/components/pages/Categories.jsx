@@ -1,57 +1,105 @@
-import React, { useEffect } from "react";
+import { Button, Col, Row, Typography } from "antd";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import {
   useGetCategoriesQuery,
-  useGetProductsOnCategoryQuery,
+  useGetProductsOnCategoryQuery
 } from "../../services/api/api";
-import Category from "../common/Category";
+import { addToCart } from "../../services/features/cartSlice";
+import CardComponent from "./../common/CardComponent";
+
+const { Text, Title } = Typography;
 
 const Categories = () => {
-  // const { data, isLoading } = useGetProductsQuery();
-  const { data, isLoading } = useGetCategoriesQuery();  
-  
-  const { list } = useGetProductsOnCategoryQuery();
+  const [productsAvailable, setProductsAvailable] = useState(false);
+  const [category, setCategory] = useState("");
 
-  
+  const dispatch = useDispatch();
+
+  const categoryStyle = {
+    margin: "16px",
+    textTransform: "capitalize",
+  };
+
+  const {
+    data: categories,
+    isLoading: isLoadingCategory,
+    refetch: refetchCategory,
+  } = useGetCategoriesQuery();
+  const {
+    data: products,
+    isLoading: isLoadingProducts,
+    refetch: refetchProducts,
+  } = useGetProductsOnCategoryQuery(category);
+
+  const changeProductsAvailable = () => {
+    setProductsAvailable(!productsAvailable);
+  };
+
+  const callCategoryProducts = (categoryName) => {
+    setCategory(categoryName);
+    refetchProducts();
+    changeProductsAvailable();
+  };
+
+  const handleRefreshCategory = () => {
+    refetchCategory();
+    setProductsAvailable(!productsAvailable);
+  };
+
+  const handleAddToCart = (product) => {
+    dispatch(addToCart(product));
+  };
   return (
     <div className="products-container">
-      {isLoading && <h2>Loading....</h2>}
-      {!isLoading && (
+      {isLoadingCategory && <Title level={2}>Loading...</Title>}
+      {!isLoadingCategory && !productsAvailable && (
         <>
-          {data?.map((category, index) => {
-            return <Category categoryName={category} key={index} />;
+          {categories?.map((category, index) => {
+            return (
+              <Button
+                key={index}
+                style={categoryStyle}
+                onClick={() => callCategoryProducts(category)}
+              >
+                {category}
+              </Button>
+            );
           })}
+          <Title level={4}>
+            Click the product category you would like to shop for!
+          </Title>
         </>
       )}
+      {productsAvailable && (
+        <div className="products" style={{ overflow: "hidden" }}>
+          <div className="products__subheader">
+            <Title level={3} style={{ margin: 0 }}>
+              {category.toUpperCase()}
+            </Title>
+            <Text
+              type="danger"
+              onClick={handleRefreshCategory}
+              style={{ cursor: "pointer" }}
+            >
+              Back...
+            </Text>
+          </div>
 
-      {/* <>
-      <h1>Products</h1>
-      <div className="products" style={{ overflow: "hidden" }}>
-        <Row gutter={[16, 24]}>
-          {data?.map((item) => {
-            return (
-              <Col sm={12} lg={8} key={item.id}>
-                <CardComponent {...item} />
-              </Col>
-            );
-          })}
-        </Row>
-      </div>
-      </> */}
-
-      {/* {!isLoading &&  <>
-      <h1>Products</h1>
-      <div className="products" style={{ overflow: "hidden" }}>
-        <Row gutter={[16, 24]}>
-          {data?.map((item) => {
-            return (
-              <Col sm={12} lg={8} key={item.id}>
-                <CardComponent {...item} />
-              </Col>
-            );
-          })}
-        </Row>
-      </div>
-      </>} */}
+          <Row gutter={[16, 24]}>
+            {products?.map((product) => {
+              return (
+                <Col sm={12} lg={8} key={product.id}>
+                  <CardComponent
+                    product={product}
+                    addToCart={handleAddToCart}
+                  />
+                </Col>
+              );
+            })}
+          </Row>
+        </div>
+      )}
     </div>
   );
 };

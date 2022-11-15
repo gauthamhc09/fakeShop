@@ -23,12 +23,11 @@
   line-height: inherit;
 }
 
-.ant-anchor-ink  {
+.ant-anchor-ink {
   height: 89%;
 }
 /* Web page */
 .fakeShop {
-  
 }
 
 /* Header Page */
@@ -37,7 +36,6 @@
   justify-content: space-between;
   color: #fff;
 
-  
   & .mobileHidden .ant-anchor {
     display: flex;
     gap: 36px;
@@ -68,6 +66,7 @@
 /* Products Page */
 .products-container {
   background-color: #b1aaa2;
+  min-height: 100vh;
 
   & .products .ant-card {
     margin: 0 auto;
@@ -82,5 +81,15 @@
 
   & .ant-col {
     margin: 0 auto;
+  }
+
+  .products {
+    &__subheader {
+      margin: 24px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 16px;
+    }
   }
 }

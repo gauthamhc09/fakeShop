@@ -1,9 +1,11 @@
 import { Button, Col, Row, Typography } from "antd";
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import {
   useGetCategoriesQuery,
-  useGetProductsOnCategoryQuery,
+  useGetProductsOnCategoryQuery
 } from "../../services/api/api";
+import { addToCart } from "../../services/features/cartSlice";
 import CardComponent from "./../common/CardComponent";
 
 const { Text, Title } = Typography;
@@ -11,6 +13,8 @@ const { Text, Title } = Typography;
 const Categories = () => {
   const [productsAvailable, setProductsAvailable] = useState(false);
   const [category, setCategory] = useState("");
+
+  const dispatch = useDispatch();
 
   const categoryStyle = {
     margin: "16px",
@@ -36,9 +40,6 @@ const Categories = () => {
     setCategory(categoryName);
     refetchProducts();
     changeProductsAvailable();
-    localStorage.setItem("products", JSON.stringify(products));
-    let list = JSON.parse(localStorage.getItem("products"));
-    console.log("list", list);
   };
 
   const handleRefreshCategory = () => {
@@ -46,6 +47,9 @@ const Categories = () => {
     setProductsAvailable(!productsAvailable);
   };
 
+  const handleAddToCart = (product) => {
+    dispatch(addToCart(product));
+  };
   return (
     <div className="products-container">
       {isLoadingCategory && <Title level={2}>Loading...</Title>}
@@ -54,6 +58,7 @@ const Categories = () => {
           {categories?.map((category, index) => {
             return (
               <Button
+                key={index}
                 style={categoryStyle}
                 onClick={() => callCategoryProducts(category)}
               >
@@ -85,7 +90,10 @@ const Categories = () => {
             {products?.map((product) => {
               return (
                 <Col sm={12} lg={8} key={product.id}>
-                  <CardComponent {...product} />
+                  <CardComponent
+                    product={product}
+                    addToCart={handleAddToCart}
+                  />
                 </Col>
               );
             })}

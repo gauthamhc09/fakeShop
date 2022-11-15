@@ -7,11 +7,14 @@
 }
 
 /* root Drawer */
+.logo {
+  cursor: pointer;
+}
 .ant-anchor-link-title {
   color: #fff;
 }
 .ant-drawer-body {
-  background-color: #061629;
+  background-color: #f5f0ea;
   padding: 0;
   margin: 8px;
 }
@@ -28,6 +31,20 @@
 }
 /* Web page */
 .fakeShop {
+  & .ant-card {
+    margin: 0 auto;
+    padding: 16px;
+  }
+
+  & .ant-card-cover img {
+    width: 150px;
+    height: 100px;
+    @include image-center();
+  }
+
+  & .ant-col {
+    margin: 0 auto;
+  }
 }
 
 /* Header Page */
@@ -67,21 +84,6 @@
 .products-container {
   background-color: #b1aaa2;
   min-height: 100vh;
-
-  & .products .ant-card {
-    margin: 0 auto;
-    padding: 16px;
-  }
-
-  & .ant-card-cover img {
-    width: 150px;
-    height: 100px;
-    @include image-center();
-  }
-
-  & .ant-col {
-    margin: 0 auto;
-  }
 
   .products {
     &__subheader {

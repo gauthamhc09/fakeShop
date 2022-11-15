@@ -10,26 +10,25 @@ import React from "react";
 
 const { Meta } = Card;
 
-const CardComponent = ({ title, image, description, price, id }) => {
-  const getId = () => {
-    console.log("id", id);
-  };
+const CardComponent = ({ product, addToCart }) => {
+  const {title, image, description, price, id} = product
   return (
     <Card
       style={{
         width: 300,
       }}
-      cover={<img alt="example" src={image} />}
+      cover={<img alt={title} src={image} />}
       actions={[
-        <Button type="danger" shape="circle" icon={<MinusOutlined />} />,
-        <Button shape="circle">0</Button>,
-        // <EllipsisOutlined key="ellipsis" />,
-        <Button
-          type="primary"
-          shape="circle"
-          icon={<PlusOutlined />}
-          onClick={getId}
-        />,
+        // <Button type="danger" shape="circle" icon={<MinusOutlined />} />,
+        // <Button shape="circle">0</Button>,
+        // // <EllipsisOutlined key="ellipsis" />,
+        // <Button
+        //   type="primary"
+        //   shape="circle"
+        //   icon={<PlusOutlined />}
+        //   onClick={() => addToCart(product)}
+        // />,
+        <Button type="primary" onClick={() => addToCart(product)}>Add to Cart</Button>
       ]}
     >
       <Meta

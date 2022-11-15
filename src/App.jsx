@@ -18,9 +18,7 @@ function App() {
         <Content>
           <Routes>
             <Route exact path="" element={<Landing />} />
-            <Route path="category" element={<Categories />}>
-              <Route exact path="product" element={<ProductPages />} />
-            </Route>
+            <Route path="category" element={<Categories />}/>
             <Route path="cart" element={<Cart />} />
           </Routes>
         </Content>

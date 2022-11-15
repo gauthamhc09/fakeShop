@@ -12,13 +12,16 @@
 }
 .ant-anchor-link-title {
   color: #fff;
+  @media only screen and (max-width: 767px) {
+    color: #000;
+  }
 }
 .ant-drawer-body {
   background-color: #f5f0ea;
   padding: 0;
   margin: 8px;
 }
-.ant-anchor {
+.ant-anchor { 
   text-align: center;
   text-decoration: underline;
 }
@@ -60,6 +63,7 @@
 
   & .mobileHidden .ant-anchor-link-title {
     color: #fff;
+  
   }
   & .mobileVisible {
     display: none;

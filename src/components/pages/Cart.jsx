@@ -14,6 +14,11 @@ const CartComponent = () => {
       <Title level={3} style={{ margin: "24px" }}>
         Cart
       </Title>
+      {
+        cartItems.length === 0 && <Title level={2} style={{ margin: 0 }}>
+          No Items in Cart
+        </Title>
+      }
       <Row gutter={[16, 24]}>
         {cartItems?.map((item) => {
           const { title, image, description, price, id, cartQuantity } = item;

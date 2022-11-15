@@ -1,9 +1,7 @@
-import { Carousel } from "antd";
-import { Image } from "antd";
+import { Carousel, Image } from "antd";
 import React from "react";
 // import Cloth1 from "./../assets/images/index"
 import { Cloth1, Cloth2, Cloth3, Cloth4, Cloth5 } from "../../assets/images";
-import CardComponent from "../common/CardComponent";
 
 const contentStyle = {
   margin: 0,
@@ -16,7 +14,7 @@ const contentStyle = {
 
 const imageStyle = {
   width: "100%",
-  height: "80vh",
+  height: "70vh",
 };
 const Landing = () => {
   return (

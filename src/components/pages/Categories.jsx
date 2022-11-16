@@ -15,7 +15,7 @@ const Categories = () => {
   const [category, setCategory] = useState("");
 
   const dispatch = useDispatch();
-  
+
   const categoryStyle = {
     margin: "16px",
     textTransform: "capitalize",
@@ -25,11 +25,13 @@ const Categories = () => {
     data: categories,
     isLoading: isLoadingCategory,
     refetch: refetchCategory,
+    error: categoryError
   } = useGetCategoriesQuery();
   const {
     data: products,
     isLoading: isLoadingProducts,
     refetch: refetchProducts,
+    error: productsError
   } = useGetProductsOnCategoryQuery(category);
 
   const changeProductsAvailable = () => {
@@ -53,6 +55,7 @@ const Categories = () => {
   return (
     <div className="products-container">
       {isLoadingCategory && <Title level={2}>Loading...</Title>}
+      {categoryError || productsError && <Title level={2}>Something went wrong, Please try again {console.log('error', categoryError)}</Title>}
       {!isLoadingCategory && !productsAvailable && (
         <>
           {categories?.map((category, index) => {

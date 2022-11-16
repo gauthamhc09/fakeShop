@@ -21,9 +21,10 @@
   padding: 0;
   margin: 8px;
 }
-.ant-anchor { 
+.ant-anchor {
   text-align: center;
-  text-decoration: underline;
+  align-items: center;
+  color: #fff;
 }
 .ant-anchor {
   line-height: inherit;
@@ -31,6 +32,15 @@
 
 .ant-anchor-ink {
   height: 89%;
+}
+.ant-layout-header {
+  position: fixed;
+  width: 100%;
+  z-index: 1000;
+  max-width: 1280px;
+}
+.ant-layout-content {
+  margin-top: 64px;
 }
 /* Web page */
 .fakeShop {
@@ -63,7 +73,6 @@
 
   & .mobileHidden .ant-anchor-link-title {
     color: #fff;
-  
   }
   & .mobileVisible {
     display: none;
@@ -76,6 +85,26 @@
     @media only screen and (max-width: 767px) {
       display: none;
     }
+  }
+  & .shoppingCart {
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 4px;
+    &:hover {
+      color: white;
+    }
+  }
+
+  & .cartQuantity {
+    color: white;
+    width: 30px;
+    height: 30px;
+    border: 2px solid #cdb4b4;
+    border-radius: 50%;
+    text-align: left;
+    padding-left: 8px;
   }
 }
 

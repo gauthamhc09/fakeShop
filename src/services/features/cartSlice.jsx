@@ -4,7 +4,9 @@ const initialState = {
   cartItems: localStorage.getItem("cartItems")
     ? JSON.parse(localStorage.getItem("cartItems"))
     : [],
-  cartTotalQuantity: 0,
+  cartTotalQuantity: localStorage.getItem("cartTotalQuantity")
+    ? JSON.parse(localStorage.getItem("cartTotalQuantity"))
+    : 0,
   cartTotalAmount: 0,
 };
 
@@ -24,15 +26,19 @@ const cartSlice = createSlice({
       } else {
         const tempProduct = { ...action.payload, cartQuantity: 1 };
         state.cartItems.push(tempProduct);
+        state.cartTotalQuantity = state.cartItems.length;
         localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+        localStorage.setItem("cartTotalQuantity", JSON.stringify(state.cartTotalQuantity));
         toast.success("added the product", {
           position: "bottom-left",
         });
       }
     },
     removeTodo(state, action) {
-        state.cartItems = state.cartItems.filter((item) => item.id !== action.payload);
-        localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+      state.cartItems = state.cartItems.filter((item) => item.id !== action.payload);
+      state.cartTotalQuantity = state.cartItems.length
+      localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+      localStorage.setItem("cartTotalQuantity", JSON.stringify(state.cartTotalQuantity));
     },
   },
 });

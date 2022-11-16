@@ -15,7 +15,7 @@ const Categories = () => {
   const [category, setCategory] = useState("");
 
   const dispatch = useDispatch();
-
+  
   const categoryStyle = {
     margin: "16px",
     textTransform: "capitalize",

@@ -1,11 +1,12 @@
 import { Button, Col, Row, Typography } from "antd";
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   useGetCategoriesQuery,
   useGetProductsOnCategoryQuery
 } from "../../services/api/api";
 import { addToCart } from "../../services/features/cartSlice";
+import { loadProducts } from "../../services/features/productSlice";
 import CardComponent from "./../common/CardComponent";
 
 const { Text, Title } = Typography;
@@ -13,6 +14,7 @@ const { Text, Title } = Typography;
 const Categories = () => {
   const [productsAvailable, setProductsAvailable] = useState(false);
   const [category, setCategory] = useState("");
+  const { productItems } = useSelector((state) => state.products);
 
   const dispatch = useDispatch();
 
@@ -42,6 +44,7 @@ const Categories = () => {
     setCategory(categoryName);
     refetchProducts();
     changeProductsAvailable();
+    dispatch(loadProducts(products))
   };
 
   const handleRefreshCategory = () => {
@@ -90,7 +93,7 @@ const Categories = () => {
           </div>
 
           <Row gutter={[16, 24]}>
-            {products?.map((product) => {
+            {productItems?.map((product) => {
               return (
                 <Col sm={12} lg={8} key={product.id}>
                   <CardComponent

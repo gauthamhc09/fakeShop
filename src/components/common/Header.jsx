@@ -2,7 +2,9 @@ import { ShoppingCartOutlined } from "@ant-design/icons";
 import { Anchor, Button, Drawer, Image } from "antd";
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useDrop } from "react-dnd";
+import { addToCart } from "../../services/features/cartSlice";
 
 const { Link } = Anchor;
 
@@ -12,6 +14,8 @@ const AppHeader = () => {
   const navigateTo = useNavigate();
 
   const {cartTotalQuantity} = useSelector((state) => state.cart)
+  const { productItems } = useSelector((state) => state.products);
+  const dispatch = useDispatch();
 
   const showDrawer = () => {
     setVisible(true);
@@ -24,6 +28,22 @@ const AppHeader = () => {
   const reRoutetoHomePage = () => {
     navigateTo('/')
   }
+
+  const [{ isOver }, drop] = useDrop(() => (
+    {
+      accept: "image",
+      drop: (item) => addImageToBoard(item.id),
+      collect: (monitor) => ({
+        isOver: !!monitor.isOver()
+      })
+    }
+  ))
+
+  const addImageToBoard = (id) => {
+    const productList = productItems.filter(item => item.id === id)
+    dispatch(addToCart(productList));
+  }
+
   return (
     <div className="header">
       <div className="logo" onClick={reRoutetoHomePage}>
@@ -37,7 +57,7 @@ const AppHeader = () => {
         <Anchor>
           <Link href="/" title="Home" />
           <Link href="/category" title="Products" />
-          <Button type="text" href="/cart" icon={<ShoppingCartOutlined />} className="shoppingCart"><span className="cartQuantity">{cartTotalQuantity}</span></Button>
+          <Button ref={drop} type="text" href="/cart" icon={<ShoppingCartOutlined />} className="shoppingCart"><span className="cartQuantity">{cartTotalQuantity}</span></Button>
         </Anchor>
       </div>
       <div className="mobileVisible">

@@ -1,7 +1,8 @@
+import { ShoppingCartOutlined } from "@ant-design/icons";
 import { Anchor, Button, Drawer, Image } from "antd";
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
-
+import { useSelector } from "react-redux";
 
 const { Link } = Anchor;
 
@@ -9,6 +10,8 @@ const { Link } = Anchor;
 const AppHeader = () => {
   const [visible, setVisible] = useState(false);
   const navigateTo = useNavigate();
+
+  const {cartTotalQuantity} = useSelector((state) => state.cart)
 
   const showDrawer = () => {
     setVisible(true);
@@ -34,7 +37,7 @@ const AppHeader = () => {
         <Anchor>
           <Link href="/" title="Home" />
           <Link href="/category" title="Products" />
-          <Link href="/cart" title="Cart" />
+          <Button type="text" href="/cart" icon={<ShoppingCartOutlined />} className="shoppingCart"><span className="cartQuantity">{cartTotalQuantity}</span></Button>
         </Anchor>
       </div>
       <div className="mobileVisible">

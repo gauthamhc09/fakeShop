@@ -15,24 +15,36 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addToCart(state, action) {
-      let itemIndex = state.cartItems.findIndex(
+      const existingIndex = state.cartItems.findIndex(
         (item) => item.id === action.payload.id
       );
-      if (itemIndex >= 0) {
-        state.cartItems[itemIndex].cartQuantity += 1;
+
+      if (existingIndex >= 0) {
+        state.cartItems[existingIndex] = {
+          ...state.cartItems[existingIndex],
+          cartQuantity: state.cartItems[existingIndex].cartQuantity + 1,
+
+        };
+        const cartQtyArray = state.cartItems.map((item) => (
+          item.cartQuantity
+        ))
+        state.cartTotalQuantity = cartQtyArray.reduce((partialSum, a) => partialSum + a, 0)
         toast.info("product increased", {
           position: "bottom-left",
         });
       } else {
         const tempProduct = { ...action.payload, cartQuantity: 1 };
         state.cartItems.push(tempProduct);
-        state.cartTotalQuantity = state.cartItems.length;
-        localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
-        localStorage.setItem("cartTotalQuantity", JSON.stringify(state.cartTotalQuantity));
+        const cartQtyArray = state.cartItems.map((item) => (
+          item.cartQuantity
+        ))
+        state.cartTotalQuantity = cartQtyArray.reduce((partialSum, a) => partialSum + a, 0)
         toast.success("added the product", {
           position: "bottom-left",
         });
       }
+      localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+      localStorage.setItem("cartTotalQuantity", JSON.stringify(state.cartTotalQuantity));
     },
     removeTodo(state, action) {
       state.cartItems = state.cartItems.filter((item) => item.id !== action.payload);

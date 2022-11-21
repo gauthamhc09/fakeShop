@@ -6,15 +6,17 @@ import {
   useGetProductsOnCategoryQuery
 } from "../../services/api/api";
 import { addToCart } from "../../services/features/cartSlice";
-import { loadProducts } from "../../services/features/productSlice";
+import { setCategory } from "../../services/features/productSlice";
 import CardComponent from "./../common/CardComponent";
 
 const { Text, Title } = Typography;
 
 const Categories = () => {
   const [productsAvailable, setProductsAvailable] = useState(false);
-  const [category, setCategory] = useState("");
-  const { productItems } = useSelector((state) => state.products);
+  // const { productItems } = useSelector((state) => state.products);
+  const { category } = useSelector((state) => state.products);
+
+  
 
   const dispatch = useDispatch();
 
@@ -35,16 +37,16 @@ const Categories = () => {
     refetch: refetchProducts,
     error: productsError
   } = useGetProductsOnCategoryQuery(category);
-
+  
   const changeProductsAvailable = () => {
     setProductsAvailable(!productsAvailable);
   };
-
   const callCategoryProducts = (categoryName) => {
-    setCategory(categoryName);
+    dispatch(setCategory(categoryName))
+    // setCategory(categoryName);
     refetchProducts();
     changeProductsAvailable();
-    dispatch(loadProducts(products))
+    // dispatch(loadProducts(products))
   };
 
   const handleRefreshCategory = () => {
@@ -61,14 +63,14 @@ const Categories = () => {
       {categoryError || productsError && <Title level={2}>Something went wrong, Please try again {console.log('error', categoryError)}</Title>}
       {!isLoadingCategory && !productsAvailable && (
         <>
-          {categories?.map((category, index) => {
+          {categories?.map((categoryItem, index) => {
             return (
               <Button
                 key={index}
                 style={categoryStyle}
-                onClick={() => callCategoryProducts(category)}
+                onClick={() => callCategoryProducts(categoryItem)}
               >
-                {category}
+                {categoryItem}
               </Button>
             );
           })}
@@ -93,7 +95,7 @@ const Categories = () => {
           </div>
 
           <Row gutter={[16, 24]}>
-            {productItems?.map((product) => {
+            {products?.map((product) => {
               return (
                 <Col sm={12} lg={8} key={product.id}>
                   <CardComponent

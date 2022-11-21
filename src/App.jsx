@@ -4,7 +4,6 @@ import "./App.scss";
 import AppHeader from "./components/common/Header";
 import { Cart, Landing } from "./components/pages";
 import Categories from "./components/pages/Categories";
-import ProductPages from "./components/pages/productPages/ProductPages";
 import DragNDrop from "./components/samples/DND/DragNDrop";
 import { DndProvider } from "react-dnd"
 import { HTML5Backend } from "react-dnd-html5-backend"

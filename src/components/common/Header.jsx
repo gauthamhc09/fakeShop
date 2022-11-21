@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { useDrop } from "react-dnd";
 import { addToCart } from "../../services/features/cartSlice";
+import { useGetProductsOnCategoryQuery } from "../../services/api/api";
 
 const { Link } = Anchor;
 
@@ -16,6 +17,8 @@ const AppHeader = () => {
   const {cartTotalQuantity} = useSelector((state) => state.cart)
   const { productItems } = useSelector((state) => state.products);
   const dispatch = useDispatch();
+
+  console.log('productItems', productItems)
 
   const showDrawer = () => {
     setVisible(true);
@@ -29,17 +32,18 @@ const AppHeader = () => {
     navigateTo('/')
   }
 
+  //drag and drop events
   const [{ isOver }, drop] = useDrop(() => (
     {
       accept: "image",
-      drop: (item) => addImageToBoard(item.id),
+      drop: (item) => addItemToCart(item.id),
       collect: (monitor) => ({
         isOver: !!monitor.isOver()
       })
     }
   ))
-
-  const addImageToBoard = (id) => {
+  // drag and drop functionality
+  const addItemToCart = (id) => {
     const productList = productItems.filter(item => item.id === id)
     dispatch(addToCart(productList));
   }

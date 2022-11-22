@@ -6,7 +6,7 @@ import {
   useGetProductsOnCategoryQuery
 } from "../../services/api/api";
 import { addToCart } from "../../services/features/cartSlice";
-import { setCategory } from "../../services/features/productSlice";
+import { setCategory } from "../../services/features/categorySlice";
 import CardComponent from "./../common/CardComponent";
 
 const { Text, Title } = Typography;
@@ -14,7 +14,7 @@ const { Text, Title } = Typography;
 const Categories = () => {
   const [productsAvailable, setProductsAvailable] = useState(false);
   // const { productItems } = useSelector((state) => state.products);
-  const { category } = useSelector((state) => state.products);
+  const { category } = useSelector((state) => state.category);
 
   
 

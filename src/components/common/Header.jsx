@@ -19,7 +19,7 @@ const AppHeader = () => {
 
   const { cartTotalQuantity } = useSelector((state) => state.cart)
   // const { productItems } = useSelector((state) => state.products);
-  const { category } = useSelector((state) => state.products);
+  const { category } = useSelector((state) => state.category);
   const {
     data: products,
     isLoading: isLoadingProducts,

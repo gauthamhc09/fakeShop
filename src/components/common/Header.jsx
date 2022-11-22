@@ -1,6 +1,6 @@
 import { ShoppingCartOutlined } from "@ant-design/icons";
 import { Anchor, Button, Drawer, Image } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDrop } from "react-dnd";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
@@ -12,21 +12,28 @@ const { Link } = Anchor;
 
 const AppHeader = () => {
   const [visible, setVisible] = useState(false);
-  const [productsonHeader, setProductsonHeader] = useState([])
+  const [productsStore, setProductsStore] = useState(null);
 
   const dispatch = useDispatch();
   const navigateTo = useNavigate();
 
   const { cartTotalQuantity } = useSelector((state) => state.cart)
   // const { productItems } = useSelector((state) => state.products);
-  const { category } = useSelector((state) => state.category);
-  const {
-    data: products,
-    isLoading: isLoadingProducts,
-    refetch: refetchProducts,
-    error: productsError
-  } = useGetProductsOnCategoryQuery(category);
+  // const { category } = useSelector((state) => state.category);
+  // const {
+  //   data: products,
+  //   isLoading: isLoadingProducts,
+  //   refetch: refetchProducts,
+  //   error: productsError
+  // } = useGetProductsOnCategoryQuery(category);
+  const { products } = useSelector(state => state.products)
 
+  console.log('products-header', products)
+  console.log('productsStore', productsStore)
+
+  useEffect(() => {
+    setProductsStore(products)
+  }, [])
   const showDrawer = () => {
     setVisible(true);
   };
@@ -41,20 +48,20 @@ const AppHeader = () => {
 
   // drag and drop functionality
   const addItemToCart = (id) => {
-    console.log("isLoadingProducts",isLoadingProducts)
-    setProductsonHeader(products)
-    console.log('products-Header',productsonHeader)
-    const productList = productsonHeader?.filter(item => item.id === id)
-    console.log('productList',productList)
-    dispatch(addToCart(productList[0]));
+    if (id === undefined) { return }
+    console.log('id-addItemToCart', id)
+    console.log('productsStore', productsStore)
+    const productList = productsStore?.filter(item => item.id === id)
+    console.log('productList', productList)
+    // dispatch(addToCart(productList[0]));
     // if(!isLoadingProducts) {
     //    console.log('products inside addItemToCart', products)
     //   const productList = products?.filter(item => item.id === id)
-      
-    //   dispatch(addToCart(productList[0]));
-      
+
+      dispatch(addToCart(productList[0]));
+
     // }
-   
+
   }
 
   //drag and drop events
@@ -68,8 +75,8 @@ const AppHeader = () => {
     }
   ))
 
-  
-  
+
+
 
   return (
     <div className="header">

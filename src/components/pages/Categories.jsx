@@ -5,8 +5,9 @@ import {
   useGetCategoriesQuery,
   useGetProductsOnCategoryQuery
 } from "../../services/api/api";
+import { productsFetch } from "../../services/features/asyncthunk/productSlice";
 import { addToCart } from "../../services/features/cartSlice";
-import { setCategory } from "../../services/features/productSlice";
+import { setCategory } from "../../services/features/categorySlice";
 import CardComponent from "./../common/CardComponent";
 
 const { Text, Title } = Typography;
@@ -14,10 +15,12 @@ const { Text, Title } = Typography;
 const Categories = () => {
   const [productsAvailable, setProductsAvailable] = useState(false);
   // const { productItems } = useSelector((state) => state.products);
-  const { category } = useSelector((state) => state.products);
-
+  // const { category } = useSelector((state) => state.category);
   
-
+  const {items} = useSelector(state => state.categories)
+  const {products} = useSelector(state => state.products)
+  
+  console.log('items', items)
   const dispatch = useDispatch();
 
   const categoryStyle = {
@@ -25,28 +28,29 @@ const Categories = () => {
     textTransform: "capitalize",
   };
 
-  const {
-    data: categories,
-    isLoading: isLoadingCategory,
-    refetch: refetchCategory,
-    error: categoryError
-  } = useGetCategoriesQuery();
-  const {
-    data: products,
-    isLoading: isLoadingProducts,
-    refetch: refetchProducts,
-    error: productsError
-  } = useGetProductsOnCategoryQuery(category);
+  // const {
+  //   data: categories,
+  //   isLoading: isLoadingCategory,
+  //   refetch: refetchCategory,
+  //   error: categoryError
+  // } = useGetCategoriesQuery();
+  // const {
+  //   data: products,
+  //   isLoading: isLoadingProducts,
+  //   refetch: refetchProducts,
+  //   error: productsError
+  // } = useGetProductsOnCategoryQuery(category);
   
   const changeProductsAvailable = () => {
     setProductsAvailable(!productsAvailable);
   };
   const callCategoryProducts = (categoryName) => {
-    dispatch(setCategory(categoryName))
+    // dispatch(setCategory(categoryName))
     // setCategory(categoryName);
-    refetchProducts();
-    changeProductsAvailable();
+    // refetchProducts();
+    // changeProductsAvailable();
     // dispatch(loadProducts(products))
+    dispatch(productsFetch(categoryName))
   };
 
   const handleRefreshCategory = () => {
@@ -59,11 +63,12 @@ const Categories = () => {
   };
   return (
     <div className="products-container">
-      {isLoadingCategory && <Title level={2}>Loading...</Title>}
-      {categoryError || productsError && <Title level={2}>Something went wrong, Please try again {console.log('error', categoryError)}</Title>}
-      {!isLoadingCategory && !productsAvailable && (
+    helo
+      {/* {isLoadingCategory && <Title level={2}>Loading...</Title>} */}
+      {/* {categoryError || productsError && <Title level={2}>Something went wrong, Please try again {console.log('error', categoryError)}</Title>} */}
+
         <>
-          {categories?.map((categoryItem, index) => {
+          {items?.map((categoryItem, index) => {
             return (
               <Button
                 key={index}
@@ -78,12 +83,12 @@ const Categories = () => {
             Click the product category you would like to shop for!
           </Title>
         </>
-      )}
-      {productsAvailable && (
+
+      {
         <div className="products" style={{ overflow: "hidden" }}>
           <div className="products__subheader">
             <Title level={3} style={{ margin: 0 }}>
-              {category.toUpperCase()}
+              hello
             </Title>
             <Text
               type="danger"
@@ -107,7 +112,7 @@ const Categories = () => {
             })}
           </Row>
         </div>
-      )}
+      }
     </div>
   );
 };

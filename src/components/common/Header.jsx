@@ -1,24 +1,31 @@
 import { ShoppingCartOutlined } from "@ant-design/icons";
 import { Anchor, Button, Drawer, Image } from "antd";
 import React, { useState } from "react";
-import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from "react-redux";
 import { useDrop } from "react-dnd";
-import { addToCart } from "../../services/features/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from 'react-router-dom';
 import { useGetProductsOnCategoryQuery } from "../../services/api/api";
+import { addToCart } from "../../services/features/cartSlice";
 
 const { Link } = Anchor;
 
 
 const AppHeader = () => {
   const [visible, setVisible] = useState(false);
+  const [productsonHeader, setProductsonHeader] = useState([])
+
+  const dispatch = useDispatch();
   const navigateTo = useNavigate();
 
-  const {cartTotalQuantity} = useSelector((state) => state.cart)
-  const { productItems } = useSelector((state) => state.products);
-  const dispatch = useDispatch();
-
-  console.log('productItems', productItems)
+  const { cartTotalQuantity } = useSelector((state) => state.cart)
+  // const { productItems } = useSelector((state) => state.products);
+  const { category } = useSelector((state) => state.products);
+  const {
+    data: products,
+    isLoading: isLoadingProducts,
+    refetch: refetchProducts,
+    error: productsError
+  } = useGetProductsOnCategoryQuery(category);
 
   const showDrawer = () => {
     setVisible(true);
@@ -32,6 +39,24 @@ const AppHeader = () => {
     navigateTo('/')
   }
 
+  // drag and drop functionality
+  const addItemToCart = (id) => {
+    console.log("isLoadingProducts",isLoadingProducts)
+    setProductsonHeader(products)
+    console.log('products-Header',productsonHeader)
+    const productList = productsonHeader?.filter(item => item.id === id)
+    console.log('productList',productList)
+    dispatch(addToCart(productList[0]));
+    // if(!isLoadingProducts) {
+    //    console.log('products inside addItemToCart', products)
+    //   const productList = products?.filter(item => item.id === id)
+      
+    //   dispatch(addToCart(productList[0]));
+      
+    // }
+   
+  }
+
   //drag and drop events
   const [{ isOver }, drop] = useDrop(() => (
     {
@@ -42,11 +67,9 @@ const AppHeader = () => {
       })
     }
   ))
-  // drag and drop functionality
-  const addItemToCart = (id) => {
-    const productList = productItems.filter(item => item.id === id)
-    dispatch(addToCart(productList));
-  }
+
+  
+  
 
   return (
     <div className="header">

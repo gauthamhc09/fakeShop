@@ -7,15 +7,25 @@ import {
 } from "@ant-design/icons";
 import { Button, Card } from "antd";
 import React from "react";
+import { useDrag } from 'react-dnd';
 
 const { Meta } = Card;
 
 const CardComponent = ({ product, addToCart }) => {
-  const {title, image, description, price, id} = product
+  const { title, image, description, price, id } = product;
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: "image",
+    item: { id: id },
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging()
+    })
+  }))
   return (
     <Card
+      ref={drag}
       style={{
         width: 300,
+        border: isDragging ? "2px solid hotpink": ""
       }}
       cover={<img alt={title} src={image} />}
       actions={[
@@ -34,7 +44,7 @@ const CardComponent = ({ product, addToCart }) => {
       <Meta
         avatar={`$${price}`}
         title={title}
-        // description={description}
+      // description={description}
       />
     </Card>
   );

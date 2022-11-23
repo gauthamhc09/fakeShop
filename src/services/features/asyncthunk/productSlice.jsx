@@ -4,8 +4,9 @@ import axios from "axios"
 const initialState = {
     status: null,
     products: localStorage.getItem("productItems")
-    ? JSON.parse(localStorage.getItem("productItems"))
-    : [],
+        ? JSON.parse(localStorage.getItem("productItems"))
+        : [],
+    categoryNameOnGlobal: "",
 }
 export const productsFetch = createAsyncThunk("products/productsFetch", async (categoryName) => {
     const response = await axios.get(`https://fakestoreapi.com/products/category/${categoryName}`)
@@ -15,7 +16,11 @@ export const productsFetch = createAsyncThunk("products/productsFetch", async (c
 export const productsSlice = createSlice({
     name: "products",
     initialState,
-    reducers: {},
+    reducers: {
+        putCategoryNameOnGlobal: (state, action) => {
+            state.categoryNameOnGlobal = action.payload
+        }
+    },
     extraReducers: {
         [productsFetch.pending]: (state, action) => {
             state.status = "pending"
@@ -31,4 +36,5 @@ export const productsSlice = createSlice({
     }
 })
 
+export const { putCategoryNameOnGlobal } = productsSlice.actions
 export default productsSlice.reducer

@@ -1,12 +1,12 @@
 import { Layout } from "antd";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 import { Route, Routes } from "react-router-dom";
 import "./App.scss";
 import AppHeader from "./components/common/Header";
 import { Cart, Landing } from "./components/pages";
 import Categories from "./components/pages/Categories";
 import DragNDrop from "./components/samples/DND/DragNDrop";
-import { DndProvider } from "react-dnd"
-import { HTML5Backend } from "react-dnd-html5-backend"
 
 const { Header, Content } = Layout;
 
